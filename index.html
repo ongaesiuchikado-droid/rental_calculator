@@ -107,74 +107,82 @@
 <script>
 /* ---------- データ部分（必要なら金額をここで編集） ---------- */
 const items = [
-  // ===== MIXER =====
-  { name: "MIXER YAMAHA STAGE PASS 300", price: "¥12,000 / 24h・¥7,200 / 12h" },
-  { name: "MIXER YAMAHA EMX5014C", price: "¥30,000 / 24h・¥24,000 / 12h" },
-  { name: "MIXER YAMAHA EMX5016CF", price: "¥36,000 / 24h・¥30,000 / 12h" },
-  { name: "MIXER YAMAHA LS9-32", price: "¥36,000 / 24h・¥30,000 / 12h" },
+  // MIXER
+  { name: "MIXER YAMAHA STAGE PASS 300", price12: 7200, price24: 12000 },
+  { name: "MIXER YAMAHA EMX5014C", price12: 18000, price24: 30000 },
+  { name: "MIXER YAMAHA EMX5016CF", price12: 18000, price24: 36000 },
+  { name: "MIXER YAMAHA LS9-32", price12: 30000, price24: 36000 },
 
-  // ===== GUITAR AMP =====
-  { name: "GUITAR AMP ROLAND JC-120", price: "¥7,200 / 24h・¥5,400 / 12h" },
-  { name: "GUITAR AMP VOX AC30 CC2", price: "¥7,200 / 24h・¥5,400 / 12h" },
-  { name: "GUITAR AMP Fender 65 Twin Reverb", price: "¥12,000 / 24h・¥9,600 / 12h" },
-  { name: "GUITAR AMP Marshall JCM900 (50W)", price: "¥7,200 / 24h・¥5,400 / 12h" },
-  { name: "GUITAR AMP Marshall JCM2000 DSL100", price: "¥7,200 / 24h・¥5,400 / 12h" },
-  { name: "GUITAR AMP Marshall JCM2000 DSL 401", price: "¥6,000 / 24h・¥4,800 / 12h" },
-  { name: "GUITAR AMP Marshall 1960A キャビ", price: "¥1,200 / 24h・¥900 / 12h" },
-  { name: "GUITAR AMP セレッションビンテージ30（単品）", price: "¥2,400 / 24h・¥1,900 / 12h" },
-  { name: "GUITAR AMP 各種フットスイッチ", price: "¥1,200 / 24h・¥900 / 12h" },
+  // GUITAR AMP
+  { name: "GUITAR AMP ROLAND JC-120", price12: 4500, price24: 7200 },
+  { name: "GUITAR AMP VOX AC30 CC2", price12: 5400, price24: 9000 },
+  { name: "GUITAR AMP Fender 65 Twin Reverb", price12: 9000, price24: 12600 },
+  { name: "GUITAR AMP Marshall JCM900", price12: 6600, price24: 9000 },
+  { name: "GUITAR AMP Marshall JCM2000 DSL100", price12: 7200, price24: 9600 },
+  { name: "GUITAR AMP Marshall JCM2000 JVM210H", price12: 7200, price24: 9600 },
+  { name: "GUITAR AMP Marshall 1960A キャビ", price12: 9000, price24: 12000 },
+  { name: "GUITAR AMP Marshall 1960A（単品）", price12: 9000, price24: 12000 },
 
-  // ===== BASS AMP =====
-  { name: "BASS AMP YAMAHA B100（コンボ）", price: "¥7,200 / 24h・¥5,400 / 12h" },
-  { name: "BASS AMP Ampeg SVT350H", price: "¥9,600 / 24h・¥7,200 / 12h" },
-  { name: "BASS AMP Hartke HA-3500", price: "¥9,600 / 24h・¥7,200 / 12h" },
-  { name: "BASS AMP LITTLE MARKUS 500", price: "¥9,600 / 24h・¥7,200 / 12h" },
-  { name: "BASS AMP Ampegヘッド＋キャビ上段セット", price: "¥24,000 / 24h・¥19,200 / 12h" },
-  { name: "BASS AMP Ampeg 15F（300W）", price: "¥4,200 / 24h・¥3,300 / 12h" },
-  { name: "BASS AMP Hartke キャビ 4.5XL（400W）", price: "¥7,200 / 24h・¥5,400 / 12h" },
+  // BASS AMP
+  { name: "BASS AMP YAMAHA B100（コンボ）", price12: 4500, price24: 7200 },
+  { name: "BASS AMP Ampeg SVT350H", price12: 5400, price24: 9000 },
+  { name: "BASS AMP Hartke HA-3500", price12: 7200, price24: 9600 },
+  { name: "BASS AMP LITTLE MARCUS 500", price12: 7200, price24: 9600 },
+  { name: "BASS AMP 上記アンプ＋キャビ追加（1台）", price12: 9000, price24: 12000 },
+  { name: "BASS AMP 上記アンプ＋キャビ追加（2台）", price12: 12000, price24: 18000 },
+  { name: "BASS AMP Ampeg キャビ（1台）", price12: 7200, price24: 9000 },
+  { name: "BASS AMP Ampeg キャビ（2台）", price12: 9000, price24: 12000 },
+  { name: "BASS AMP 15F（300W）", price12: 2400, price24: 4800 },
+  { name: "BASS AMP 4.5XL（400W）", price12: 2400, price24: 4800 },
 
-  // ===== KEYBOARD =====
-  { name: "KEYBOARD KORG Trinity", price: "¥7,800 / 24h・¥6,240 / 12h" },
-  { name: "KEYBOARD HAMMOND XB-2", price: "¥9,600 / 24h・¥7,680 / 12h" },
-  { name: "KEYBOARD KORG SP-200", price: "¥6,000 / 24h・¥4,800 / 12h" },
-  { name: "KEYBOARD YAMAHA P-85", price: "¥6,000 / 24h・¥4,800 / 12h" },
-  { name: "KEYBOARD 上記キーボード＋スタンド", price: "¥2,400 / 24h・¥1,900 / 12h" },
-  { name: "KEYBOARD フットペダル", price: "¥900 / 24h・¥700 / 12h" },
+  // KEYBOARD
+  { name: "KEYBOARD KORG Trinity", price12: 6240, price24: 7800 },
+  { name: "KEYBOARD HAMMOND XB-2", price12: 7680, price24: 9600 },
+  { name: "KEYBOARD KORG SP-200", price12: 4800, price24: 7200 },
+  { name: "KEYBOARD YAMAHA P-85", price12: 4800, price24: 7200 },
+  { name: "KEYBOARD キーボードスタンド", price12: 900, price24: 1200 },
 
-  // ===== DRUM =====
-  { name: "DRUM PEARL ドラムセット", price: "¥14,400 / 24h・¥10,800 / 12h" },
-  { name: "DRUM タム・アンプラケーション", price: "¥1,200 / 24h・¥900 / 12h" },
-  { name: "DRUM ドラムシンバル（ハード）", price: "¥4,800 / 24h・¥3,600 / 12h" },
-  { name: "DRUM ライドシンバル", price: "¥1,800 / 24h・¥1,800 / 12h" },
-  { name: "DRUM ドラムシンバル（上下）", price: "¥3,600 / 24h・¥2,600 / 12h" },
-  { name: "DRUM スネア", price: "¥1,800 / 24h・¥1,320 / 12h" },
-  { name: "DRUM フロアタム", price: "¥1,800 / 24h・¥1,320 / 12h" },
-  { name: "DRUM ツインペダル", price: "¥2,400 / 24h・¥1,800 / 12h" },
-  { name: "DRUM サイレントドラム", price: "¥1,800 / 24h・¥1,320 / 12h" },
+  // DRUM
+  { name: "DRUM PEARL ドラムセット一式", price12: 10800, price24: 14400 },
+  { name: "DRUM バスドラム", price12: 2400, price24: 3000 },
+  { name: "DRUM タム（ハイ/ロー）", price12: 1800, price24: 2400 },
+  { name: "DRUM フロアタム", price12: 2400, price24: 3000 },
+  { name: "DRUM スネア", price12: 1800, price24: 2400 },
+  { name: "DRUM ドラムシンバル（ハイハット上下）", price12: 1800, price24: 2400 },
+  { name: "DRUM ライドシンバル", price12: 1800, price24: 2400 },
+  { name: "DRUM クラッシュシンバル", price12: 1800, price24: 2400 },
+  { name: "DRUM スタンド一式", price12: 3120, price24: 4800 },
+  { name: "DRUM ドラムスローン", price12: 1200, price24: 1800 },
+  { name: "DRUM バスドラム（フロア名分）", price12: 1200, price24: 1800 },
+  { name: "DRUM メタルドラム", price12: 2160, price24: 3240 },
 
-  // ===== MIC =====
-  { name: "MIC SHURE SM57・SM58", price: "¥2,400 / 24h・¥1,800 / 12h" },
-  { name: "MIC SHURE BETA58・BETA57", price: "¥3,000 / 24h・¥2,400 / 12h" },
-  { name: "MIC EV Cobalt（ATW-1322）", price: "¥4,800 / 24h・¥3,840 / 12h" },
-  { name: "MIC SHURE BOSS DI", price: "¥2,400 / 24h・¥1,800 / 12h" },
-  { name: "MIC マイクスタンド", price: "¥1,200 / 24h・¥900 / 12h" },
-  { name: "MIC ピンマイク（カントリーマン）", price: "¥3,600 / 24h・¥4,800 / 12h" },
+  // MIC
+  { name: "MIC SHURE SM57", price12: 800, price24: 1200 },
+  { name: "MIC SHURE SM58", price12: 800, price24: 1200 },
+  { name: "MIC SHURE BETA58A", price12: 1200, price24: 1800 },
+  { name: "MIC EV Cobalt", price12: 800, price24: 1200 },
+  { name: "MIC ワイヤレスマイク（Audio-Technica ATW-1322）", price12: 3600, price24: 4800 },
+  { name: "MIC ワイヤレスマイク（SHURE）", price12: 3600, price24: 4800 },
+  { name: "MIC マイクスタンド", price12: 480, price24: 900 },
+  { name: "MIC マイクケーブル", price12: 300, price24: 480 },
+  { name: "MIC MD（カントリーマン）", price12: 4800, price24: 6000 },
 
-  // ===== SPEAKER =====
-  { name: "SPEAKER EV SX300", price: "¥6,000 / 24h・¥4,800 / 12h" },
-  { name: "SPEAKER MEYER UPA-2P", price: "¥12,000 / 24h" },
-  { name: "SPEAKER MEYER USW-1P", price: "¥12,000 / 24h" },
-  { name: "SPEAKER モニタースピーカー EV FM1202", price: "¥6,000 / 24h・¥4,800 / 12h" },
+  // SPEAKER
+  { name: "SPEAKER EV SX300", price12: 4800, price24: 6000 },
+  { name: "SPEAKER MEYER UPA-2P", price12: 12000, price24: 12000 },
+  { name: "SPEAKER MEYER USW-1P", price12: 12000, price24: 12000 },
+  { name: "SPEAKER モニタースピーカー（EV FM1202）", price12: 4800, price24: 6000 },
 
-  // ===== OPTION =====
-  { name: "OPTION CANARE 16ch-50m", price: "¥6,000 / 24h・¥4,800 / 12h" },
-  { name: "OPTION YAMAHA Q1031", price: "¥3,600 / 24h・¥3,000 / 12h" },
-  { name: "OPTION KLARK TEKNIK DN360", price: "¥6,000 / 24h・¥4,800 / 12h" },
-  { name: "OPTION DBX 2231（GEQ 2ch）", price: "¥4,800 / 24h・¥3,600 / 12h" },
-  { name: "OPTION CDデッキ", price: "¥3,600 / 24h・¥3,000 / 12h" },
-  { name: "OPTION MDデッキ", price: "¥3,600 / 24h・¥3,000 / 12h" },
-  { name: "OPTION カセットデッキ", price: "¥3,600 / 24h・¥3,000 / 12h" },
-  { name: "OPTION カールコード（ボーカルケーブル）", price: "¥1,200 / 24h・¥900 / 12h" }
+  // OPTION
+  { name: "OPTION CANARE 16ch-50mリール", price12: 8400, price24: 9600 },
+  { name: "OPTION YAMAHA QL1031", price12: 4800, price24: 6000 },
+  { name: "OPTION KLARK TEKNIK DN360", price12: 4800, price24: 6000 },
+  { name: "OPTION DN332", price12: 3600, price24: 4800 },
+  { name: "OPTION パワーディストリビューター", price12: 3600, price24: 4800 },
+  { name: "OPTION CDデッキ", price12: 2400, price24: 3000 },
+  { name: "OPTION MDデッキ", price12: 2400, price24: 3000 },
+  { name: "OPTION カホン", price12: 2400, price24: 3000 },
+  { name: "OPTION カットケーブル・ポーダブルアンプ（100W）", price12: 8400, price24: 9600 }
 ];
 /* ------------------------------------------------------------ */
 
