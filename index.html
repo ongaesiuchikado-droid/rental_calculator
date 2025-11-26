@@ -81,7 +81,6 @@
         <select id="duration" title="利用時間">
           <option value="12">12時間</option>
           <option value="24" selected>24時間</option>
-          <option value="168">7日間</option>
         </select>
         <label class="small">会員
           <input id="member" type="checkbox" style="margin-left:6px">
@@ -108,71 +107,71 @@
 /* ---------- データ部分（ここを丸ごと置き換え） ---------- */
 const items = [
   // ===== MIXER =====
-  { id:"STAGEPAS-300", cat:"MIXER", name:"YAMAHA STAGEPAS 300", prices:{12:7200,24:12000,168:48000}, note:"ポータブルPA" },
-  { id:"YAMAHA-EMX5014C", cat:"MIXER", name:"YAMAHA EMX5014C", prices:{12:24000,24:30000,168:120000}, note:"12ch PA" },
-  { id:"YAMAHA-EMX5016CF", cat:"MIXER", name:"YAMAHA EMX5016CF", prices:{12:30000,24:36000,168:144000}, note:"12ch/パワー内蔵" },
-  { id:"YAMAHA-LS9-32", cat:"MIXER", name:"YAMAHA LS9-32", prices:{12:30000,24:36000,168:144000}, note:"デジタルミキサー" },
+  { id:"STAGEPAS-300", cat:"MIXER", name:"YAMAHA STAGEPAS 300", prices:{12:7200,24:12000}, note:"ポータブルPA" },
+  { id:"YAMAHA-EMX5014C", cat:"MIXER", name:"YAMAHA EMX5014C", prices:{12:24000,24:30000}, note:"12ch PA" },
+  { id:"YAMAHA-EMX5016CF", cat:"MIXER", name:"YAMAHA EMX5016CF", prices:{12:30000,24:36000}, note:"12ch/パワー内蔵" },
+  { id:"YAMAHA-LS9-32", cat:"MIXER", name:"YAMAHA LS9-32", prices:{12:30000,24:36000}, note:"デジタルミキサー" },
 
   // ===== GUITAR AMP =====
-  { id:"ROLAND-JC120", cat:"GUITAR AMP", name:"ROLAND JC-120", prices:{12:5400,24:7200,168:28000}, note:"クリーン名機" },
-  { id:"VOX-AC30CC2", cat:"GUITAR AMP", name:"VOX AC30 CC2", prices:{12:7200,24:9600,168:38000}, note:"ブリティッシュ" },
-  { id:"FENDER-TWIN65", cat:"GUITAR AMP", name:"Fender '65 Twin Reverb", prices:{12:9600,24:12000,168:48000}, note:"ヴィンテージ系" },
-  { id:"MARSHALL-JCM900", cat:"GUITAR AMP", name:"Marshall JCM900", prices:{12:5400,24:7200,168:24800}, note:"50Wクラス" },
-  { id:"MARSHALL-JCM2000-DSL100", cat:"GUITAR AMP", name:"Marshall JCM2000 DSL100", prices:{12:7200,24:9600,168:38000}, note:"" },
-  { id:"MARSHALL-1960A", cat:"GUITAR AMP", name:"Marshall 1960A キャビネット", prices:{12:1200,24:1200,168:4800}, note:"キャビ単体" },
-  { id:"CELESTION-V30", cat:"GUITAR AMP", name:"Celestion Vintage 30 (単品)", prices:{12:2400,24:2400,168:9600}, note:"スピーカー" },
-  { id:"FOOTSWITCHES", cat:"GUITAR AMP", name:"各種フットスイッチ", prices:{12:1200,24:1200,168:4800}, note:"" },
+  { id:"ROLAND-JC120", cat:"GUITAR AMP", name:"ROLAND JC-120", prices:{12:5400,24:7200}, note:"クリーン名機" },
+  { id:"VOX-AC30CC2", cat:"GUITAR AMP", name:"VOX AC30 CC2", prices:{12:7200,24:9600}, note:"ブリティッシュ" },
+  { id:"FENDER-TWIN65", cat:"GUITAR AMP", name:"Fender '65 Twin Reverb", prices:{12:9600,24:12000}, note:"ヴィンテージ系" },
+  { id:"MARSHALL-JCM900", cat:"GUITAR AMP", name:"Marshall JCM900", prices:{12:5400,24:7200}, note:"50Wクラス" },
+  { id:"MARSHALL-JCM2000-DSL100", cat:"GUITAR AMP", name:"Marshall JCM2000 DSL100", prices:{12:7200,24:9600}, note:"" },
+  { id:"MARSHALL-1960A", cat:"GUITAR AMP", name:"Marshall 1960A キャビネット", prices:{12:1200,24:1200}, note:"キャビ単体" },
+  { id:"CELESTION-V30", cat:"GUITAR AMP", name:"Celestion Vintage 30 (単品)", prices:{12:2400,24:2400}, note:"スピーカー" },
+  { id:"FOOTSWITCHES", cat:"GUITAR AMP", name:"各種フットスイッチ", prices:{12:1200,24:1200}, note:"" },
 
   // ===== BASS AMP =====
-  { id:"YAMAHA-B100", cat:"BASS AMP", name:"YAMAHA B100 (コンボ)", prices:{12:5400,24:7200,168:28000}, note:"100W" },
-  { id:"AMPEG-SVT350", cat:"BASS AMP", name:"Ampeg SVT-350H", prices:{12:9600,24:12000,168:42000}, note:"ヘッド" },
-  { id:"HARTKE-HA3500", cat:"BASS AMP", name:"Hartke HA-3500", prices:{12:9600,24:12000,168:42000}, note:"" },
-  { id:"AMPEG-CABINET", cat:"BASS AMP", name:"Ampeg ヘッド＋キャビ セット", prices:{12:24000,24:24000,168:96000}, note:"" },
+  { id:"YAMAHA-B100", cat:"BASS AMP", name:"YAMAHA B100 (コンボ)", prices:{12:5400,24:7200}, note:"100W" },
+  { id:"AMPEG-SVT350", cat:"BASS AMP", name:"Ampeg SVT-350H", prices:{12:9600,24:12000}, note:"ヘッド" },
+  { id:"HARTKE-HA3500", cat:"BASS AMP", name:"Hartke HA-3500", prices:{12:9600,24:12000}, note:"" },
+  { id:"AMPEG-CABINET", cat:"BASS AMP", name:"Ampeg ヘッド＋キャビ セット", prices:{12:24000,24:24000}, note:"" },
 
   // ===== KEYBOARD =====
-  { id:"KORG-TRINITY", cat:"KEYBOARD", name:"KORG Trinity", prices:{12:6240,24:7800,168:30000}, note:"シンセ" },
-  { id:"HAMMOND-XB2", cat:"KEYBOARD", name:"HAMMOND XB-2", prices:{12:7680,24:9600,168:38000}, note:"オルガン系" },
-  { id:"KORG-SP200", cat:"KEYBOARD", name:"KORG SP-200", prices:{12:4800,24:6000,168:24000}, note:"" },
-  { id:"YAMAHA-P85", cat:"KEYBOARD", name:"YAMAHA P-85", prices:{12:4800,24:6000,168:24000}, note:"" },
-  { id:"KB-STAND", cat:"KEYBOARD", name:"キーボード＋スタンド", prices:{12:2400,24:2400,168:9600}, note:"" },
+  { id:"KORG-TRINITY", cat:"KEYBOARD", name:"KORG Trinity", prices:{12:6240,24:7800}, note:"シンセ" },
+  { id:"HAMMOND-XB2", cat:"KEYBOARD", name:"HAMMOND XB-2", prices:{12:7680,24:9600}, note:"オルガン系" },
+  { id:"KORG-SP200", cat:"KEYBOARD", name:"KORG SP-200", prices:{12:4800,24:6000}, note:"" },
+  { id:"YAMAHA-P85", cat:"KEYBOARD", name:"YAMAHA P-85", prices:{12:4800,24:6000}, note:"" },
+  { id:"KB-STAND", cat:"KEYBOARD", name:"キーボード＋スタンド", prices:{12:2400,24:2400}, note:"" },
 
   // ===== DRUM =====
-  { id:"PEARL-DRUMSET", cat:"DRUM", name:"PEARL ドラムセット（シンバル含）", prices:{12:10800,24:14400,168:60000}, note:"フルセット" },
-  { id:"SNARE", cat:"DRUM", name:"スネア（単体）", prices:{12:1200,24:1800,168:6500}, note:"" },
-  { id:"TOMS", cat:"DRUM", name:"タム/フロアタム（各）", prices:{12:1800,24:2400,168:9600}, note:"" },
-  { id:"CYMBAL-PAIRS", cat:"DRUM", name:"シンバル各種（上下/ライド）", prices:{12:3600,24:4800,168:19200}, note:"" },
-  { id:"DOUBLE-PEDESTAL", cat:"DRUM", name:"ツインペダル", prices:{12:2400,24:2400,168:9600}, note:"" },
+  { id:"PEARL-DRUMSET", cat:"DRUM", name:"PEARL ドラムセット（シンバル含）", prices:{12:10800,24:14400}, note:"フルセット" },
+  { id:"SNARE", cat:"DRUM", name:"スネア（単体）", prices:{12:1200,24:1800}, note:"" },
+  { id:"TOMS", cat:"DRUM", name:"タム/フロアタム（各）", prices:{12:1800,24:2400}, note:"" },
+  { id:"CYMBAL-PAIRS", cat:"DRUM", name:"シンバル各種（上下/ライド）", prices:{12:3600,24:4800}, note:"" },
+  { id:"DOUBLE-PEDESTAL", cat:"DRUM", name:"ツインペダル", prices:{12:2400,24:2400}, note:"" },
 
   // ===== MIC =====
-  { id:"SHURE-SM57", cat:"MIC", name:"SHURE SM57", prices:{12:1200,24:2400,168:9000}, note:"ダイナミック" },
-  { id:"SHURE-SM58", cat:"MIC", name:"SHURE SM58", prices:{12:1200,24:2400,168:9000}, note:"ボーカル向け" },
-  { id:"BETA-57-58", cat:"MIC", name:"SHURE BETA57 / BETA58", prices:{12:3000,24:3000,168:12000}, note:"高感度" },
-  { id:"WIRELESS-HAND", cat:"MIC", name:"ワイヤレスマイク（ハンド）", prices:{12:4500,24:7200,168:25000}, note:"" },
-  { id:"LAVALIER", cat:"MIC", name:"ピンマイク（ラベリア）", prices:{12:3600,24:4800,168:18000}, note:"" },
-  { id:"DI-BOX", cat:"MIC", name:"DI（BOSS等）", prices:{12:1200,24:2400,168:8000}, note:"" },
-  { id:"MIC-STAND", cat:"OPTION", name:"マイクスタンド（ブーム含む）", prices:{12:480,24:960,168:3600}, note:"" },
+  { id:"SHURE-SM57", cat:"MIC", name:"SHURE SM57", prices:{12:1200,24:2400}, note:"ダイナミック" },
+  { id:"SHURE-SM58", cat:"MIC", name:"SHURE SM58", prices:{12:1200,24:2400}, note:"ボーカル向け" },
+  { id:"BETA-57-58", cat:"MIC", name:"SHURE BETA57 / BETA58", prices:{12:3000,24:3000}, note:"高感度" },
+  { id:"WIRELESS-HAND", cat:"MIC", name:"ワイヤレスマイク（ハンド）", prices:{12:4500,24:7200,}, note:"" },
+  { id:"LAVALIER", cat:"MIC", name:"ピンマイク（ラベリア）", prices:{12:3600,24:4800}, note:"" },
+  { id:"DI-BOX", cat:"MIC", name:"DI（BOSS等）", prices:{12:1200,24:2400}, note:"" },
+  { id:"MIC-STAND", cat:"OPTION", name:"マイクスタンド（ブーム含む）", prices:{12:480,24:960}, note:"" },
 
   // ===== SPEAKER =====
-  { id:"EV-SX300", cat:"SPEAKER", name:"EV SX300 (パワードスピーカー)", prices:{12:4800,24:6000,168:24000}, note:"" },
-  { id:"MEYER-UPA2P", cat:"SPEAKER", name:"MEYER UPA-2P", prices:{12:12000,24:12000,168:48000}, note:"プロ機" },
-  { id:"MEYER-USW1P", cat:"SPEAKER", name:"MEYER USW-1P", prices:{12:12000,24:12000,168:48000}, note:"サブウーファー" },
-  { id:"MONITOR-EV-FM1202", cat:"SPEAKER", name:"モニタースピーカー EV FM1202", prices:{12:4800,24:6000,168:24000}, note:"" },
+  { id:"EV-SX300", cat:"SPEAKER", name:"EV SX300 (パワードスピーカー)", prices:{12:4800,24:6000}, note:"" },
+  { id:"MEYER-UPA2P", cat:"SPEAKER", name:"MEYER UPA-2P", prices:{12:12000,24:12000}, note:"プロ機" },
+  { id:"MEYER-USW1P", cat:"SPEAKER", name:"MEYER USW-1P", prices:{12:12000,24:12000}, note:"サブウーファー" },
+  { id:"MONITOR-EV-FM1202", cat:"SPEAKER", name:"モニタースピーカー EV FM1202", prices:{12:4800,24:6000}, note:"" },
 
   // ===== OPTION / PROCESSING =====
-  { id:"CANARE-CABLE", cat:"OPTION", name:"シールド（CANARE 1本）", prices:{12:360,24:720,168:2500}, note:"" },
-  { id:"CABLE-16CH-50M", cat:"OPTION", name:"CANARE 16ch ケーブル（50m）", prices:{12:6000,24:6000,168:24000}, note:"" },
-  { id:"YAMAHA-Q1031", cat:"OPTION", name:"YAMAHA Q1031（旧型）", prices:{12:3600,24:3600,168:14400}, note:"" },
-  { id:"KLARK-DN360", cat:"OPTION", name:"KLARK TEKNIK DN360", prices:{12:6000,24:6000,168:24000}, note:"" },
-  { id:"DBX-2231", cat:"OPTION", name:"DBX 2231（GEQ 2ch）", prices:{12:4800,24:4800,168:19200}, note:"" },
-  { id:"CD-DECK", cat:"OPTION", name:"CDデッキ", prices:{12:3600,24:3600,168:14400}, note:"" },
-  { id:"MD-DECK", cat:"OPTION", name:"MDデッキ", prices:{12:3600,24:3600,168:14400}, note:"" },
-  { id:"CASSETTE-DECK", cat:"OPTION", name:"カセットデッキ", prices:{12:3600,24:3600,168:14400}, note:"" },
-  { id:"COILED-CABLE", cat:"OPTION", name:"カールコード（ボーカル用）", prices:{12:1200,24:1200,168:4800}, note:"" },
+  { id:"CANARE-CABLE", cat:"OPTION", name:"シールド（CANARE 1本）", prices:{12:360,24:720}, note:"" },
+  { id:"CABLE-16CH-50M", cat:"OPTION", name:"CANARE 16ch ケーブル（50m）", prices:{12:6000,24:6000}, note:"" },
+  { id:"YAMAHA-Q1031", cat:"OPTION", name:"YAMAHA Q1031（旧型）", prices:{12:3600,24:3600}, note:"" },
+  { id:"KLARK-DN360", cat:"OPTION", name:"KLARK TEKNIK DN360", prices:{12:6000,24:6000}, note:"" },
+  { id:"DBX-2231", cat:"OPTION", name:"DBX 2231（GEQ 2ch）", prices:{12:4800,24:4800}, note:"" },
+  { id:"CD-DECK", cat:"OPTION", name:"CDデッキ", prices:{12:3600,24:3600}, note:"" },
+  { id:"MD-DECK", cat:"OPTION", name:"MDデッキ", prices:{12:3600,24:3600}, note:"" },
+  { id:"CASSETTE-DECK", cat:"OPTION", name:"カセットデッキ", prices:{12:3600,24:3600}, note:"" },
+  { id:"COILED-CABLE", cat:"OPTION", name:"カールコード（ボーカル用）", prices:{12:1200,24:1200}, note:"" },
 
   // ===== MISC SMALL ITEMS =====
-  { id:"DI-OTHER", cat:"OPTION", name:"各種DI（パッシブ）", prices:{12:1200,24:1200,168:4800}, note:"" },
-  { id:"POWER-STRIP", cat:"OPTION", name:"電源タップ（延長）", prices:{12:480,24:480,168:1920}, note:"" },
-  { id:"STAGE-BOARDS", cat:"OPTION", name:"舞台用ボード/足場", prices:{12:6000,24:6000,168:24000}, note:"" }
+  { id:"DI-OTHER", cat:"OPTION", name:"各種DI（パッシブ）", prices:{12:1200,24:1200}, note:"" },
+  { id:"POWER-STRIP", cat:"OPTION", name:"電源タップ（延長）", prices:{12:480,24:480}, note:"" },
+  { id:"STAGE-BOARDS", cat:"OPTION", name:"舞台用ボード/足場", prices:{12:6000,24:6000}, note:"" }
 ];
 /* ------------------------------------------------------------ */
 
