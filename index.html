@@ -24,8 +24,8 @@
   .small{font-size:13px;color:var(--muted)}
   .btn{display:inline-block;padding:8px 10px;border-radius:8px;border:1px solid #111;background:#111;color:#fff;text-decoration:none;cursor:pointer}
   .btn.ghost{background:transparent;color:var(--fg);border:1px solid #ddd}
-  .items-list{display:grid;gap:8px;margin-top:8px}
-  .item{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:8px;border:1px solid #f2f2f2;border-radius:8px}
+  .items-list{display:grid;gap:8px;margin-top:8px;max-height:60vh;overflow:auto}
+  .item{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:8px;border:1px solid #f2f2f2;border-radius:8px;background:#fff}
   .meta{flex:1}
   .controls{display:flex;gap:6px;align-items:center}
   input[type=number]{width:64px;padding:6px;border-radius:6px;border:1px solid #ddd;text-align:center}
@@ -104,7 +104,10 @@
 </div>
 
 <script>
-/* ---------- データ部分（ここを丸ごと置き換え） ---------- */
+/* ---------- データ部分（ここを丸ごと置き換え） ----------
+   画像のレンタル表の内容を全て入れました。
+   prices オブジェクトは 12 と 24 のみ（7day削除）
+*/
 const items = [
   // ===== MIXER =====
   { id:"STAGEPAS-300", cat:"MIXER", name:"YAMAHA STAGEPAS 300", prices:{12:7200,24:12000}, note:"ポータブルPA" },
@@ -146,7 +149,7 @@ const items = [
   { id:"SHURE-SM57", cat:"MIC", name:"SHURE SM57", prices:{12:1200,24:2400}, note:"ダイナミック" },
   { id:"SHURE-SM58", cat:"MIC", name:"SHURE SM58", prices:{12:1200,24:2400}, note:"ボーカル向け" },
   { id:"BETA-57-58", cat:"MIC", name:"SHURE BETA57 / BETA58", prices:{12:3000,24:3000}, note:"高感度" },
-  { id:"WIRELESS-HAND", cat:"MIC", name:"ワイヤレスマイク（ハンド）", prices:{12:4500,24:7200,}, note:"" },
+  { id:"WIRELESS-HAND", cat:"MIC", name:"ワイヤレスマイク（ハンド）", prices:{12:4500,24:7200}, note:"" },
   { id:"LAVALIER", cat:"MIC", name:"ピンマイク（ラベリア）", prices:{12:3600,24:4800}, note:"" },
   { id:"DI-BOX", cat:"MIC", name:"DI（BOSS等）", prices:{12:1200,24:2400}, note:"" },
   { id:"MIC-STAND", cat:"OPTION", name:"マイクスタンド（ブーム含む）", prices:{12:480,24:960}, note:"" },
@@ -288,12 +291,12 @@ function showBookingsFor(dateKey){
 }
 
 /* navigate month */
-document.getElementById('prev').addEventListener('click', ()=>{
+prevBtn.addEventListener('click', ()=>{
   state.month -= 1;
   if (state.month < 0){ state.month = 11; state.year -= 1; }
   renderCalendar();
 });
-document.getElementById('next').addEventListener('click', ()=>{
+nextBtn.addEventListener('click', ()=>{
   state.month += 1;
   if (state.month > 11){ state.month = 0; state.year += 1; }
   renderCalendar();
@@ -310,7 +313,6 @@ chooseDateBtn.addEventListener('click', ()=>{
 
 /* go to items directly */
 goToItemsBtn.addEventListener('click', ()=> {
-  // if no date selected confirm
   if (!state.selectedDate && !confirm('日付を先に選ぶのがおすすめです。日付未選択で続けますか？')) return;
   showItemsView();
 });
@@ -326,14 +328,14 @@ function renderItemsList(){
   itemsListEl.innerHTML = '';
   const q = (searchEl.value||'').trim().toLowerCase();
   items.forEach(it=>{
-    if (q && !(it.name+it.cat+it.note).toLowerCase().includes(q)) return;
+    if (q && !( (it.name||'') + (it.cat||'') + (it.note||'') ).toLowerCase().includes(q)) return;
     const row = document.createElement('div');
     row.className = 'item';
     row.innerHTML = `
       <div class="meta">
         <div style="font-weight:600">${it.name}</div>
         <div class="small">${it.cat} ${it.note||''}</div>
-        <div class="small">料金: 12h ${fmt(it.prices[12])} / 24h ${fmt(it.prices[24])} / 7d ${fmt(it.prices[168])}</div>
+        <div class="small">料金: 12h ${fmt(it.prices[12]||0)} / 24h ${fmt(it.prices[24]||0)}</div>
       </div>
       <div class="controls">
         <input type="number" min="0" value="${state.selections[it.id]||0}" data-id="${it.id}" class="qty">
@@ -369,7 +371,7 @@ function updateTotal(){
   for (const [id, qty] of Object.entries(state.selections)){
     const it = items.find(x=>x.id===id);
     if (!it) continue;
-    const unit = it.prices[state.duration] || 0;
+    const unit = (it.prices && it.prices[state.duration]) ? it.prices[state.duration] : 0;
     sum += unit * qty;
   }
   if (state.member) sum = Math.round(sum * 0.9);
@@ -380,7 +382,7 @@ function updateTotal(){
 
 /* estimate text */
 function generateEstimateText(total){
-  const durLabel = state.duration===12 ? '12時間' : state.duration===24 ? '24時間' : '7日間';
+  const durLabel = state.duration===12 ? '12時間' : '24時間';
   let lines = [];
   lines.push('見積り（暫定）');
   lines.push(`対象日: ${state.selectedDate || '未選択'}`);
@@ -391,7 +393,7 @@ function generateEstimateText(total){
   let idx=1;
   for (const [id,qty] of Object.entries(state.selections)){
     const it = items.find(x=>x.id===id); if(!it) continue;
-    const unit = it.prices[state.duration]||0;
+    const unit = (it.prices && it.prices[state.duration]) ? it.prices[state.duration] : 0;
     lines.push(`${idx}. ${it.name} × ${qty} 単価 ${fmt(unit)} 小計 ${fmt(unit*qty)}`);
     idx++;
   }
@@ -409,13 +411,13 @@ confirmBookingBtn.addEventListener('click', ()=>{
     return;
   }
   const bookings = loadBookings();
-  const durLabel = state.duration===12 ? '12時間' : state.duration===24 ? '24時間' : '7日間';
+  const durLabel = state.duration===12 ? '12時間' : '24時間';
   // build items array
   const sel = [];
   let total = 0;
   for (const [id,qty] of Object.entries(state.selections)){
     const it = items.find(x=>x.id===id); if(!it) continue;
-    const unit = it.prices[state.duration]||0;
+    const unit = (it.prices && it.prices[state.duration]) ? it.prices[state.duration] : 0;
     sel.push({ id: it.id, name: it.name, qty, unit, subtotal: unit*qty });
     total += unit * qty;
   }
@@ -445,11 +447,9 @@ function renderView(){
   if (state.view === 'calendar'){
     calendarPanel.style.display = '';
     itemsPanel.style.display = '';
-    // we want calendar primary; items remain visible for convenience
   } else {
     calendarPanel.style.display = '';
     itemsPanel.style.display = '';
-    // scroll to items panel on small screens
     setTimeout(()=> itemsPanel.scrollIntoView({behavior:'smooth'}),100);
   }
 }
