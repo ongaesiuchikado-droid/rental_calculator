@@ -230,4 +230,207 @@ function showBookingsFor(dateKey){
   entry.items.forEach((it, idx) => {
     txt += `${idx+1}. ${it.name} × ${it.qty} (単価 ${fmt(it.unit)}) → ${fmt(it.subtotal)}\n`;
   });
-  txt += `\n合計: ${fmt(entry.total)}
+  txt += `\n合計: ${fmt(entry.total)}\n会員: ${entry.meta.member ? 'あり' : 'なし'}\n利用時間: ${entry.meta.durationLabel}\n\n備考: ローカル保存データです。正式予約はスタッフ確認を。`;
+  alert(txt);
+}
+
+/* navigate month */
+document.getElementById('prev').addEventListener('click', ()=>{
+  state.month -= 1;
+  if (state.month < 0){ state.month = 11; state.year -= 1; }
+  renderCalendar();
+});
+document.getElementById('next').addEventListener('click', ()=>{
+  state.month += 1;
+  if (state.month > 11){ state.month = 0; state.year += 1; }
+  renderCalendar();
+});
+
+/* initial */
+renderCalendar();
+
+/* choose date -> items view */
+chooseDateBtn.addEventListener('click', ()=>{
+  if (!state.selectedDate) return;
+  showItemsView();
+});
+
+/* go to items directly */
+goToItemsBtn.addEventListener('click', ()=> {
+  // if no date selected confirm
+  if (!state.selectedDate && !confirm('日付を先に選ぶのがおすすめです。日付未選択で続けますか？')) return;
+  showItemsView();
+});
+
+backToCalBtn.addEventListener('click', ()=> {
+  state.view = 'calendar';
+  renderView();
+  renderCalendar();
+});
+
+/* render items list */
+function renderItemsList(){
+  itemsListEl.innerHTML = '';
+  const q = (searchEl.value||'').trim().toLowerCase();
+  items.forEach(it=>{
+    if (q && !(it.name+it.cat+it.note).toLowerCase().includes(q)) return;
+    const row = document.createElement('div');
+    row.className = 'item';
+    row.innerHTML = `
+      <div class="meta">
+        <div style="font-weight:600">${it.name}</div>
+        <div class="small">${it.cat} ${it.note||''}</div>
+        <div class="small">料金: 12h ${fmt(it.prices[12])} / 24h ${fmt(it.prices[24])} / 7d ${fmt(it.prices[168])}</div>
+      </div>
+      <div class="controls">
+        <input type="number" min="0" value="${state.selections[it.id]||0}" data-id="${it.id}" class="qty">
+        <input type="checkbox" ${state.selections[it.id] ? 'checked' : ''} data-id="${it.id}" class="chk">
+      </div>
+    `;
+    const qty = row.querySelector('.qty');
+    const chk = row.querySelector('.chk');
+    qty.addEventListener('input', (e)=>{
+      let v = parseInt(e.target.value)||0;
+      if (v <= 0){ delete state.selections[it.id]; chk.checked = false; e.target.value = 0; }
+      else { state.selections[it.id] = v; chk.checked = true; }
+      updateTotal();
+    });
+    chk.addEventListener('change', (e)=>{
+      if (e.target.checked){
+        if (!state.selections[it.id] || state.selections[it.id]===0){ state.selections[it.id]=1; qty.value = 1; }
+      } else {
+        delete state.selections[it.id]; qty.value = 0;
+      }
+      updateTotal();
+    });
+    itemsListEl.appendChild(row);
+  });
+  updateTotal();
+}
+
+/* update total */
+function updateTotal(){
+  state.duration = parseInt(durationEl.value);
+  state.member = memberEl.checked;
+  let sum = 0;
+  for (const [id, qty] of Object.entries(state.selections)){
+    const it = items.find(x=>x.id===id);
+    if (!it) continue;
+    const unit = it.prices[state.duration] || 0;
+    sum += unit * qty;
+  }
+  if (state.member) sum = Math.round(sum * 0.9);
+  totalEl.textContent = fmt(sum);
+  exportArea.textContent = generateEstimateText(sum);
+  confirmBookingBtn.disabled = Object.keys(state.selections).length === 0 || !state.selectedDate;
+}
+
+/* estimate text */
+function generateEstimateText(total){
+  const durLabel = state.duration===12 ? '12時間' : state.duration===24 ? '24時間' : '7日間';
+  let lines = [];
+  lines.push('見積り（暫定）');
+  lines.push(`対象日: ${state.selectedDate || '未選択'}`);
+  lines.push(`利用時間: ${durLabel}`);
+  lines.push(`会員: ${state.member ? 'あり (10%OFF)' : 'なし'}`);
+  lines.push('');
+  lines.push('--- 機材 ---');
+  let idx=1;
+  for (const [id,qty] of Object.entries(state.selections)){
+    const it = items.find(x=>x.id===id); if(!it) continue;
+    const unit = it.prices[state.duration]||0;
+    lines.push(`${idx}. ${it.name} × ${qty} 単価 ${fmt(unit)} 小計 ${fmt(unit*qty)}`);
+    idx++;
+  }
+  lines.push('');
+  lines.push(`合計（概算）: ${fmt(total)}`);
+  lines.push('');
+  lines.push('※ 在庫・確保はスタッフ確認をお願いします。');
+  return lines.join('\n');
+}
+
+/* confirm booking -> save to localStorage and mark calendar */
+confirmBookingBtn.addEventListener('click', ()=>{
+  if (!state.selectedDate){
+    alert('先に日付を選んでください。');
+    return;
+  }
+  const bookings = loadBookings();
+  const durLabel = state.duration===12 ? '12時間' : state.duration===24 ? '24時間' : '7日間';
+  // build items array
+  const sel = [];
+  let total = 0;
+  for (const [id,qty] of Object.entries(state.selections)){
+    const it = items.find(x=>x.id===id); if(!it) continue;
+    const unit = it.prices[state.duration]||0;
+    sel.push({ id: it.id, name: it.name, qty, unit, subtotal: unit*qty });
+    total += unit * qty;
+  }
+  if (state.member) total = Math.round(total * 0.9);
+  bookings[state.selectedDate] = {
+    meta: { createdAt: Date.now(), member: state.member, duration: state.duration, durationLabel: durLabel },
+    items: sel,
+    total
+  };
+  saveBookings(bookings);
+  alert(state.selectedDate + ' に予約を保存しました（ローカル）。カレンダーに印が付きます。');
+  // reset selections
+  state.selections = {};
+  renderCalendar();
+  renderView();
+});
+
+/* helper - show items view */
+function showItemsView(){
+  state.view = 'items';
+  renderView();
+  renderItemsList();
+}
+
+/* view switch */
+function renderView(){
+  if (state.view === 'calendar'){
+    calendarPanel.style.display = '';
+    itemsPanel.style.display = '';
+    // we want calendar primary; items remain visible for convenience
+  } else {
+    calendarPanel.style.display = '';
+    itemsPanel.style.display = '';
+    // scroll to items panel on small screens
+    setTimeout(()=> itemsPanel.scrollIntoView({behavior:'smooth'}),100);
+  }
+}
+
+/* search/duration/member listeners */
+searchEl.addEventListener('input', ()=> renderItemsList());
+durationEl.addEventListener('change', updateTotal);
+memberEl.addEventListener('change', updateTotal);
+
+/* back button and nav */
+backToCalBtn.addEventListener('click', ()=> {
+  state.view='calendar'; renderView(); renderCalendar();
+});
+goToItemsBtn.addEventListener('click', ()=> {
+  if (!state.selectedDate && !confirm('日付を選ばずに続けますか？（後で日付を選べます）')) return;
+  showItemsView();
+});
+
+/* quick view: clicking existing mark shows booking */
+newBookingBtn.addEventListener('click', ()=> {
+  if (!state.selectedDate) { alert('日付を選んでください（カレンダーをクリック）'); return; }
+  showBookingsFor(state.selectedDate);
+});
+
+/* clear all marks (local only) */
+clearMarksBtn.addEventListener('click', ()=> {
+  if (!confirm('ローカル保存された予約を全て消します。よいですか？')) return;
+  localStorage.removeItem(LS_KEY);
+  renderCalendar();
+});
+
+/* startup */
+renderView();
+renderCalendar();
+updateTotal();
+
+</script>
